@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Competition Programs 2026 — The Brainiac Factory</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #1a2e5a;
+    --gold: #c9a84c;
+    --gold-light: #f5e6b8;
+    --gold-dark: #9a7a2e;
+    --cream: #faf7f0;
+    --white: #ffffff;
+    --text: #1e1e2e;
+    --text-muted: #5a5a72;
+    --border: #e8e0cc;
+    --navy-light: #e8ecf5;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(135deg, var(--navy) 60%, #2d4a8a 100%);
+    padding: 40px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    background: rgba(201,168,76,.07); border-radius: 50%;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute; left: -40px; bottom: -40px;
+    width: 200px; height: 200px;
+    background: rgba(201,168,76,.05); border-radius: 50%;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(201,168,76,.18);
+    color: var(--gold);
+    font-size: 11px; font-weight: 600; letter-spacing: 1.8px;
+    text-transform: uppercase;
+    padding: 4px 14px; border-radius: 20px;
+    border: 1px solid rgba(201,168,76,.3);
+    margin-bottom: 14px;
+  }
+  .site-header h1 {
+    font-family: 'Playfair Display', serif;
+    color: #fff; font-size: 2.2rem; line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .site-header h1 span { color: var(--gold); }
+  .site-header p {
+    color: rgba(255,255,255,.7); font-size: 1rem;
+    max-width: 560px; margin: 0 auto 18px;
+  }
+  .header-date {
+    display: inline-block;
+    background: rgba(255,255,255,.1);
+    color: rgba(255,255,255,.75);
+    font-size: 12px; padding: 4px 14px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.15);
+  }
+
+  /* MAIN */
+  main { max-width: 1060px; margin: 0 auto; padding: 36px 24px 60px; }
+
+  /* SECTION HEAD */
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold-dark); margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; color: var(--navy); margin-bottom: 20px;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-open    { background: #1a7a3c; }
+  .dot-soon    { background: #b85c00; }
+  .dot-closed  { background: #8a1a1a; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .filter-btn {
+    padding: 7px 16px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--white);
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    color: var(--text-muted); transition: all .18s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--navy); color: var(--gold);
+    border-color: var(--navy);
+  }
+
+  /* COUNT */
+  .result-count {
+    font-size: 13px; color: var(--text-muted);
+    margin-bottom: 14px; text-align: right;
+  }
+  .result-count strong { color: var(--navy); }
+
+  /* TABLE */
+  .table-wrap {
+    background: var(--white);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 16px rgba(26,46,90,.06);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th {
+    background: var(--navy); color: var(--gold);
+    font-weight: 600; padding: 14px 16px;
+    text-align: left; font-size: 11px;
+    letter-spacing: .5px; text-transform: uppercase;
+  }
+  tbody td {
+    padding: 13px 16px; border-bottom: 1px solid var(--border);
+    vertical-align: middle; color: var(--text); line-height: 1.5;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #f7f4ee; }
+  tbody tr.hidden { display: none; }
+  tbody tr.row-closed td { opacity: .55; }
+
+  /* EVENT NAME */
+  .event-name { font-weight: 600; color: var(--navy); font-size: 14px; }
+
+  /* SUBJECT BADGE */
+  .subj {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+  }
+  .subj-math    { background: #e8ecf5; color: #1a2e5a; }
+  .subj-sci     { background: #e6f0fb; color: #1a4a8a; }
+  .subj-ct      { background: #e6f4ec; color: #1a6b3c; }
+  .subj-arts    { background: #fce8f5; color: #7a1a6b; }
+  .subj-steam   { background: #fff0d6; color: #7a4a00; }
+  .subj-leader  { background: #f0e6ff; color: #4a1a7a; }
+  .subj-info    { background: #e0f5ff; color: #005a8a; }
+  .subj-cyber   { background: #ffe8e8; color: #8a1a1a; }
+  .subj-chemist { background: #e8f5e0; color: #2a6a00; }
+
+  /* TYPE BADGE */
+  .type-badge {
+    display: inline-block; padding: 3px 10px; border-radius: 6px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+  }
+  .type-paper  { background: var(--gold-light); color: var(--gold-dark); }
+  .type-online { background: #e6f4ec; color: #1a6b3c; }
+  .type-sg     { background: var(--navy-light); color: var(--navy); }
+  .type-uz     { background: #fce8f5; color: #7a1a6b; }
+
+  /* REGISTRATION STATUS */
+  .reg-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 11px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; white-space: nowrap;
+    letter-spacing: .2px;
+  }
+  .reg-badge::before {
+    content: ''; display: inline-block;
+    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  }
+  .reg-open   { background: #d4f0e0; color: #0e6b33; border: 1px solid #a8dfc0; }
+  .reg-open::before   { background: #1a7a3c; box-shadow: 0 0 0 2px rgba(26,122,60,.2); }
+  .reg-soon   { background: #fff0d6; color: #9a4f00; border: 1px solid #f5d08a; }
+  .reg-soon::before   { background: #b85c00; box-shadow: 0 0 0 2px rgba(184,92,0,.2); }
+  .reg-coming { background: #e8ecf5; color: #1a2e5a; border: 1px solid #c0cce8; }
+  .reg-coming::before { background: #4a6aa0; }
+  .reg-closed { background: #fce8e8; color: #8a1a1a; border: 1px solid #f0b8b8; }
+  .reg-closed::before { background: #c0392b; }
+
+  /* DATE */
+  .date-cell { white-space: nowrap; font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+  /* GRADE */
+  .grade-cell { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+
+  /* COUNTDOWN */
+  .countdown { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+  .countdown.urgent { color: #b85c00; font-weight: 600; }
+
+  /* FOOTER */
+  .page-footer {
+    background: var(--navy); border-radius: 12px;
+    padding: 22px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 10px;
+    margin-top: 32px;
+  }
+  .page-footer p { color: rgba(255,255,255,.6); font-size: 13px; }
+  .page-footer span { color: var(--gold); font-weight: 600; font-size: 13px; }
+
+  /* COMPETITION LINKS */
+  .comp-link {
+    color: var(--navy); text-decoration: none; font-weight: 600;
+    border-bottom: 1px dashed rgba(26,46,90,.3);
+    transition: color .15s, border-color .15s;
+  }
+  .comp-link:hover { color: var(--gold-dark); border-color: var(--gold-dark); }
+
+  /* RESULTS */
+  .result-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px; border-radius: 6px;
+    font-size: 11px; font-weight: 600;
+    background: var(--navy); color: var(--gold);
+    text-decoration: none; border: 1px solid transparent;
+    transition: all .18s; white-space: nowrap;
+  }
+  .result-link:hover { background: var(--gold); color: var(--navy); }
+  .result-pending {
+    display: inline-block;
+    padding: 4px 12px; border-radius: 6px;
+    font-size: 11px; font-weight: 600;
+    background: #f0f0f5; color: #aaa;
+    border: 1px dashed #ddd; white-space: nowrap;
+  }
+
+
+    .site-header h1 { font-size: 1.6rem; }
+    thead th, tbody td { padding: 10px 10px; font-size: 12px; }
+    .hide-mobile { display: none; }
+    .reg-badge { padding: 3px 8px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-badge">Cambodia · Official SIMCC Partner</div>
+  <h1>The Brainiac Factory<br><span>Competition Programs 2026</span></h1>
+  <p>Official academic competition schedule for Cambodian students — managed by The Brainiac Factory, exclusive SIMCC Country Council Partner.</p>
+  <div class="header-date" id="today-label">Loading…</div>
+</header>
+
+<main>
+  <div class="section-label">Academic Year 2026</div>
+  <div class="section-title">All Competition Events</div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-open"></div> Registration Open</div>
+    <div class="legend-item"><div class="legend-dot dot-soon"></div> Closing Soon (≤14 days)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4a6aa0"></div> Coming Soon</div>
+    <div class="legend-item"><div class="legend-dot dot-closed"></div> Registration Closed</div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterTable('all', this)">All Events</button>
+    <button class="filter-btn" onclick="filterTable('open', this)">🟢 Open</button>
+    <button class="filter-btn" onclick="filterTable('soon', this)">🟡 Closing Soon</button>
+    <button class="filter-btn" onclick="filterTable('coming-soon', this)">🔵 Coming Soon</button>
+    <button class="filter-btn" onclick="filterTable('closed', this)">🔴 Closed</button>
+    <button class="filter-btn" onclick="filterTable('Math', this)">Mathematics</button>
+    <button class="filter-btn" onclick="filterTable('CT', this)">Computational Thinking</button>
+    <button class="filter-btn" onclick="filterTable('Science', this)">Science</button>
+    <button class="filter-btn" onclick="filterTable('Paper', this)">Paper-Based</button>
+    <button class="filter-btn" onclick="filterTable('Online', this)">Online</button>
+    <button class="filter-btn" onclick="filterTable('Overseas', this)">Overseas Finals</button>
+  </div>
+
+  <div class="result-count" id="result-count"><strong>17</strong> events listed</div>
+
+  <div class="table-wrap">
+    <table id="comp-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Competition Name</th>
+          <th>Subject</th>
+          <th class="hide-mobile">Grade</th>
+          <th>Type</th>
+          <th>Registration</th>
+          <th>Results</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-subject="CT" data-type="Paper" data-examdate="2026-02-28">
+          <td style="color:var(--text-muted);font-size:12px">1</td>
+          <td><div class="event-name">BEBRAS 2026</div></td>
+          <td><span class="subj subj-ct">Computational Thinking</span></td>
+          <td class="grade-cell hide-mobile">G1 – G12</td>
+          
+          <td><span class="type-badge type-paper">Paper</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Math" data-type="Paper" data-examdate="2026-03-07">
+          <td style="color:var(--text-muted);font-size:12px">2</td>
+          <td><div class="event-name">SMGF 2026</div></td>
+          <td><span class="subj subj-math">Mathematics</span></td>
+          <td class="grade-cell hide-mobile">G1 – G11</td>
+          
+          <td><span class="type-badge type-paper">Paper</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Math" data-type="Paper" data-examdate="2026-03-28">
+          <td style="color:var(--text-muted);font-size:12px">3</td>
+          <td><div class="event-name">SASMO 2026</div></td>
+          <td><span class="subj subj-math">Mathematics</span></td>
+          <td class="grade-cell hide-mobile">G1 – G12</td>
+          
+          <td><span class="type-badge type-paper">Paper</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="CT" data-type="Online" data-examdate="2026-05-17">
+          <td style="color:var(--text-muted);font-size:12px">4</td>
+          <td><div class="event-name">IJIO 2026</div></td>
+          <td><span class="subj subj-info">Informatics</span></td>
+          <td class="grade-cell hide-mobile">G1 – G12</td>
+          
+          <td><span class="type-badge type-online">Online</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Arts" data-type="Online" data-examdate="2026-05-30">
+          <td style="color:var(--text-muted);font-size:12px">5</td>
+          <td><div class="event-name">SIAT 2026</div></td>
+          <td><span class="subj subj-arts">Arts</span></td>
+          <td class="grade-cell hide-mobile">G1 – G12</td>
+          
+          <td><span class="type-badge type-online">Online</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Science" data-type="Paper" data-examdate="2026-06-07">
+          <td style="color:var(--text-muted);font-size:12px">6</td>
+          <td><div class="event-name">VNJSO 2026</div></td>
+          <td><span class="subj subj-sci">Science</span></td>
+          <td class="grade-cell hide-mobile">G3 – G11</td>
+          
+          <td><span class="type-badge type-paper">Paper</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Math" data-type="Overseas" data-examdate="2026-07-17" data-override="closed">
+          <td style="color:var(--text-muted);font-size:12px">7</td>
+          <td><div class="event-name">SIMOC 2026</div></td>
+          <td><span class="subj subj-math">Mathematics</span></td>
+          <td class="grade-cell hide-mobile">G1 – G12</td>
+          
+          <td><span class="type-badge type-sg">Singapore</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Math" data-type="Online" data-examdate="2026-08-23" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">8</td>
+          <td><div class="event-name">MMT 2026</div></td>
+          <td><span class="subj subj-math">Mathematics</span></td>
+          <td class="grade-cell hide-mobile">G4 – G8</td>
+          
+          <td><span class="type-badge type-online">Online</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Math" data-type="Online" data-examdate="2026-08-23" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">9</td>
+          <td><div class="event-name">SMMT 2026</div></td>
+          <td><span class="subj subj-math">Mathematics</span></td>
+          <td class="grade-cell hide-mobile">G9 – G12</td>
+          
+          <td><span class="type-badge type-online">Online</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="CT" data-type="Online" data-examdate="2026-09-06" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">10</td>
+          <td><div class="event-name">National Junior AI Olympiad (NJAIO)</div></td>
+          <td><span class="subj subj-ct">Computational Thinking</span></td>
+          <td class="grade-cell hide-mobile">G1 – G12</td>
+          
+          <td><span class="type-badge type-online">Online</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Science" data-type="Paper" data-examdate="2026-09-20" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">11</td>
+          <td><div class="event-name">JCCO 2026</div></td>
+          <td><span class="subj subj-chemist">Science (Chemistry)</span></td>
+          <td class="grade-cell hide-mobile">G7 – G12</td>
+          
+          <td><span class="type-badge type-paper">Paper</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="CT" data-type="Online" data-examdate="2026-09-26" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">12</td>
+          <td><div class="event-name">NJCO 2026</div></td>
+          <td><span class="subj subj-cyber">Cybersecurity Olympiad</span></td>
+          <td class="grade-cell hide-mobile">G8 – G12</td>
+          
+          <td><span class="type-badge type-online">Online</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Science" data-type="Online" data-examdate="2026-10-04" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">13</td>
+          <td><div class="event-name">SGSC 2026</div></td>
+          <td><span class="subj subj-sci">Science</span></td>
+          <td class="grade-cell hide-mobile">G1 – G12</td>
+          
+          <td><span class="type-badge type-online">Online</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Math" data-type="Paper" data-examdate="2026-10-18" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">14</td>
+          <td><div class="event-name">SMC 2026</div></td>
+          <td><span class="subj subj-math">Mathematics</span></td>
+          <td class="grade-cell hide-mobile">G1 – G11</td>
+          
+          <td><span class="type-badge type-paper">Paper</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Math" data-type="Paper" data-examdate="2026-11-01" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">15</td>
+          <td><div class="event-name">AMO 2026</div></td>
+          <td><span class="subj subj-math">Mathematics</span></td>
+          <td class="grade-cell hide-mobile">G2 – G11</td>
+          
+          <td><span class="type-badge type-paper">Paper</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="STEAM" data-type="Overseas" data-examdate="2026-12-11" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">16</td>
+          <td><div class="event-name">STEAM AHEAD 2026</div></td>
+          <td><span class="subj subj-steam">STEAM</span></td>
+          <td class="grade-cell hide-mobile">G1 – G12</td>
+          
+          <td><span class="type-badge type-uz">Uzbekistan</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+        <tr data-subject="Leader" data-type="Overseas" data-examdate="2026-12-18" data-override="coming-soon">
+          <td style="color:var(--text-muted);font-size:12px">17</td>
+          <td><div class="event-name">YALA 2026</div></td>
+          <td><span class="subj subj-leader">Leadership Camp</span></td>
+          <td class="grade-cell hide-mobile">G4 – G12</td>
+          
+          <td><span class="type-badge type-uz">Uzbekistan</span></td>
+          <td class="reg-cell"></td>
+          <td class="result-cell"><span class="result-pending">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="page-footer">
+    <p>© 2026 The Brainiac Factory — Official SIMCC Country Council Partner, Cambodia</p>
+    <span><a href="https://t.me/+855978877880" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;">Telegram: 097 887 7880</a></span>
+  </div>
+</main>
+
+<script>
+  // ── Helpers ─────────────────────────────────────────────
+  function today() {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
+  function daysUntil(dateStr) {
+    const exam = new Date(dateStr);
+    const t = today();
+    return Math.round((exam - t) / 86400000);
+  }
+
+  function regStatus(days) {
+    if (days < 0) return 'closed';
+    if (days <= 14) return 'soon';
+    return 'open';
+  }
+
+  function badgeHTML(days) {
+    const status = regStatus(days);
+    if (status === 'closed') {
+      return `<span class="reg-badge reg-closed">Closed</span>`;
+    }
+    if (status === 'soon') {
+      const label = days === 0 ? 'Today!' : days === 1 ? 'Tomorrow!' : `${days}d left`;
+      return `<span class="reg-badge reg-soon">Closing Soon</span>
+              <div class="countdown urgent">${label}</div>`;
+    }
+    return `<span class="reg-badge reg-open">Open</span>
+            <div class="countdown">${days} days to exam</div>`;
+  }
+
+  // ── Competition detail links ──────────────────────────────
+  const COMP_LINKS = {
+    'BEBRAS 2026':                          'https://bebras.simcc.org/',
+    'SMGF 2026':                            'https://simcc.org/smgf/',
+    'SASMO 2026':                           'https://simcc.org/sasmo/',
+    'IJIO 2026':                            'https://ijio.simcc.org/',
+    'SIAT 2026':                            'https://simcc.org/siat/',
+    'VNJSO 2026':                           'https://vanda.simcc.org/',
+    'SIMOC 2026':                           'https://simoc.simcc.org/',
+    'MMT 2026':                             'https://amo.simcc.org/',
+    'SMMT 2026':                            'https://amo.simcc.org/',
+    'National Junior AI Olympiad (NJAIO)':  'https://jaio.simcc.org/',
+    'JCCO 2026':                            'https://simcc.org/upcoming_competitions/',
+    'NJCO 2026':                            'https://simcc.org/njco/',
+    'SGSC 2026':                            'https://smc.simcc.org/',
+    'SMC 2026':                             'https://smc.simcc.org/',
+    'AMO 2026':                             'https://amo.simcc.org/',
+    'STEAM AHEAD 2026':                     'https://steamahead.simcc.org/',
+    'YALA 2026':                            'https://simcc.org/',
+  };
+
+  function renderCompLinks() {
+    document.querySelectorAll('#comp-table tbody tr').forEach(row => {
+      const nameEl = row.querySelector('.event-name');
+      if (!nameEl) return;
+      const name = nameEl.textContent.trim();
+      const url = COMP_LINKS[name];
+      if (url) {
+        nameEl.innerHTML = `<a href="${url}" target="_blank" rel="noopener" class="comp-link">${name}</a>`;
+      }
+    });
+  }
+
+  // ── Result links (fill in url + label per row when results are ready) ──
+  const RESULTS = {
+    'BEBRAS 2026':  { url: 'https://bebras.simcc.org/bebras-results/', label: 'View Results' },
+    'SMGF 2026':    { url: 'https://smc.simcc.org/smc/2026-smgf-results/', label: 'View Results' },
+    'SASMO 2026':   { url: 'https://sasmo.simcc.org/sasmo-results/', label: 'View Results' },
+  };
+
+  function renderResults() {
+    document.querySelectorAll('#comp-table tbody tr').forEach(row => {
+      const name = row.querySelector('.event-name')?.textContent.trim();
+      const cell = row.querySelector('.result-cell');
+      if (!cell) return;
+      const entry = RESULTS[name];
+      if (entry) {
+        cell.innerHTML = `<a class="result-link" href="${entry.url}" target="_blank" rel="noopener">&#8599; ${entry.label || 'View Results'}</a>`;
+      }
+    });
+  }
+
+
+  function initStatus() {
+    const t = today();
+    const formatted = t.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('today-label').textContent = `As of ${formatted}`;
+
+    document.querySelectorAll('#comp-table tbody tr').forEach(row => {
+      const override = row.dataset.override;
+      const days = daysUntil(row.dataset.examdate);
+
+      let status, html;
+
+      if (override === 'coming-soon') {
+        status = 'coming-soon';
+        html = `<span class="reg-badge reg-coming">Coming Soon</span>`;
+      } else if (override === 'closed') {
+        status = 'closed';
+        html = `<span class="reg-badge reg-closed">Closed</span>`;
+      } else {
+        status = regStatus(days);
+        html = badgeHTML(days);
+      }
+
+      row.dataset.reg = status;
+      row.querySelector('.reg-cell').innerHTML = html;
+      if (status === 'closed') row.classList.add('row-closed');
+    });
+
+    renderCompLinks();
+    renderResults();
+  }
+
+  // ── Filter ───────────────────────────────────────────────
+  function filterTable(filter, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const rows = document.querySelectorAll('#comp-table tbody tr');
+    let visible = 0;
+
+    rows.forEach(row => {
+      const subj = row.dataset.subject;
+      const type = row.dataset.type;
+      const reg  = row.dataset.reg;
+      let show = false;
+
+      if      (filter === 'all')          show = true;
+      else if (filter === 'open')         show = reg === 'open';
+      else if (filter === 'soon')         show = reg === 'soon';
+      else if (filter === 'closed')       show = reg === 'closed';
+      else if (filter === 'coming-soon')  show = reg === 'coming-soon';
+      else if (filter === 'Math')     show = subj === 'Math';
+      else if (filter === 'CT')       show = subj === 'CT';
+      else if (filter === 'Science')  show = subj === 'Science';
+      else if (filter === 'Paper')    show = type === 'Paper';
+      else if (filter === 'Online')   show = type === 'Online';
+      else if (filter === 'Overseas') show = type === 'Overseas';
+
+      row.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    document.getElementById('result-count').innerHTML =
+      `<strong>${visible}</strong> event${visible !== 1 ? 's' : ''} listed`;
+  }
+
+  initStatus();
+</script>
+</body>
+</html>
